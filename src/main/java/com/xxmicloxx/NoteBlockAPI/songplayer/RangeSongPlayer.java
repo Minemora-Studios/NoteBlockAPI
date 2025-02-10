@@ -13,6 +13,8 @@ import com.xxmicloxx.NoteBlockAPI.model.SoundCategory;
 public abstract class RangeSongPlayer extends SongPlayer{
 
 	private int distance = 16;
+
+	private int distanceSquared = distance*distance;
 	
 	public RangeSongPlayer(Song song, SoundCategory soundCategory) {
 		super(song, soundCategory);
@@ -41,6 +43,7 @@ public abstract class RangeSongPlayer extends SongPlayer{
 		switch (key){
 			case "distance":
 				distance = (int) value;
+				distanceSquared = distance*distance;
 				break;
 		}
 	}
@@ -51,11 +54,16 @@ public abstract class RangeSongPlayer extends SongPlayer{
 	 */
 	public void setDistance(int distance) {
 		this.distance = distance;
+		distanceSquared = distance*distance;
 		CallUpdate("distance", distance);
 	}
 
 	public int getDistance() {
 		return distance;
+	}
+
+	public int getDistanceSquared() {
+		return distanceSquared;
 	}
 	
 	/**

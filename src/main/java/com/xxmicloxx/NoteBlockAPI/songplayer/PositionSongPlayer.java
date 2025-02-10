@@ -87,17 +87,17 @@ public class PositionSongPlayer extends RangeSongPlayer {
 			float volume = ((layer.getVolume() * (int) this.volume * (int) playerVolume * note.getVelocity()) / 100_00_00_00F)
 					* ((1F / 16F) * getDistance());
 
-			channelMode.play(player, targetLocation, song, layer, note, soundCategory, volume, !enable10Octave);
+			channelMode.play(player, player.getLocation(), song, layer, note, soundCategory, volume, !enable10Octave);
 
 			if (isInRange(player)) {
 				if (!playerList.get(player.getUniqueId())) {
 					playerList.put(player.getUniqueId(), true);
-					Bukkit.getPluginManager().callEvent(new PlayerRangeStateChangeEvent(this, player, true));
+					//Bukkit.getPluginManager().callEvent(new PlayerRangeStateChangeEvent(this, player, true));
 				}
 			} else {
 				if (playerList.get(player.getUniqueId())) {
 					playerList.put(player.getUniqueId(), false);
-					Bukkit.getPluginManager().callEvent(new PlayerRangeStateChangeEvent(this, player, false));
+					//Bukkit.getPluginManager().callEvent(new PlayerRangeStateChangeEvent(this, player, false));
 				}
 			}
 		}
@@ -110,6 +110,6 @@ public class PositionSongPlayer extends RangeSongPlayer {
 	 */
 	@Override
 	public boolean isInRange(Player player) {
-		return player.getLocation().distance(targetLocation) <= getDistance();
+		return player.getLocation().distanceSquared(targetLocation) <= getDistance();
 	}
 }

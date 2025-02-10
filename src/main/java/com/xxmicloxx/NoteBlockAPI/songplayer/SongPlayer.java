@@ -443,7 +443,7 @@ public abstract class SongPlayer {
 				}
 				CallUpdate("tick", tick);
 
-				plugin.doSync(() -> {
+				//plugin.doSync(() -> {
 					try {
 						for (UUID uuid : playerList.keySet()) {
 							Player player = Bukkit.getPlayer(uuid);
@@ -460,7 +460,7 @@ public abstract class SongPlayer {
 								: "null"));
 						e.printStackTrace();
 					}
-				});
+				//});
 			}
 		} catch (Exception e) {
 			Bukkit.getLogger().severe("An error occurred during the playback of song "
