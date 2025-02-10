@@ -78,27 +78,28 @@ public class PositionSongPlayer extends RangeSongPlayer {
 			return; // not in same world
 		}
 
-		byte playerVolume = NoteBlockAPI.getPlayerVolume(player);
+		if (isInRange(player)) {
+			if (!playerList.get(player.getUniqueId())) {
+				playerList.put(player.getUniqueId(), true);
+				//Bukkit.getPluginManager().callEvent(new PlayerRangeStateChangeEvent(this, player, true));
+			}
 
-		for (Layer layer : song.getLayerHashMap().values()) {
-			Note note = layer.getNote(tick);
-			if (note == null) continue;
+			byte playerVolume = NoteBlockAPI.getPlayerVolume(player);
 
-			float volume = ((layer.getVolume() * (int) this.volume * (int) playerVolume * note.getVelocity()) / 100_00_00_00F)
-					* ((1F / 16F) * getDistance());
+			for (Layer layer : song.getLayerHashMap().values()) {
+				Note note = layer.getNote(tick);
+				if (note == null) continue;
 
-			channelMode.play(player, player.getLocation(), song, layer, note, soundCategory, volume, !enable10Octave);
+				float volume = ((layer.getVolume() * (int) this.volume * (int) playerVolume * note.getVelocity()) / 100_00_00_00F)
+						* ((1F / 16F) * getDistance());
 
-			if (isInRange(player)) {
-				if (!playerList.get(player.getUniqueId())) {
-					playerList.put(player.getUniqueId(), true);
-					//Bukkit.getPluginManager().callEvent(new PlayerRangeStateChangeEvent(this, player, true));
-				}
-			} else {
-				if (playerList.get(player.getUniqueId())) {
-					playerList.put(player.getUniqueId(), false);
-					//Bukkit.getPluginManager().callEvent(new PlayerRangeStateChangeEvent(this, player, false));
-				}
+				channelMode.play(player, player.getLocation(), song, layer, note, soundCategory, volume, !enable10Octave);
+			}
+
+		} else {
+			if (playerList.get(player.getUniqueId())) {
+				playerList.put(player.getUniqueId(), false);
+				//Bukkit.getPluginManager().callEvent(new PlayerRangeStateChangeEvent(this, player, false));
 			}
 		}
 	}
