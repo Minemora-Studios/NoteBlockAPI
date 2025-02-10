@@ -110,6 +110,6 @@ public class PositionSongPlayer extends RangeSongPlayer {
 	 */
 	@Override
 	public boolean isInRange(Player player) {
-		return player.getLocation().distanceSquared(targetLocation) <= getDistance();
+		return player.getLocation().distanceSquared(targetLocation) <= getDistanceSquared();
 	}
 }
